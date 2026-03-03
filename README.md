@@ -68,3 +68,15 @@ LeIsaac 프로젝트에 추가한 기능들입니다.
   --port /dev/ttyACM0 \
   --num_envs 1 --enable_cameras
 ```
+
+## 파일별 역할
+
+| 파일 | 역할 |
+|---|---|
+| `so101_leader.py` | 단팔 USB leader arm. 실제 robot arm의 joint position을 읽어 simulator에 전달 |
+| `bi_so101_leader.py` | 양팔 USB leader arm. 좌/우 leader arm 동시 제어. Gripper calibration 포함 |
+| `so101_keyboard.py` | 단팔 keyboard controller. 키보드로 robot arm의 방향/위치를 조작 |
+| `so101_joint_keyboard.py` | 단팔 keyboard controller. Leader arm 없이 키보드로 각 joint를 직접 제어. so101leader fallback용 |
+| `bi_so101_keyboard.py` | 양팔 keyboard controller. Leader arm 없이 키보드로 양팔 12 joints 제어. B키 후 ready pose 자동 전환 |
+| `teleop_se3_agent.py` | Teleop 메인 스크립트. USB↔keyboard 자동 전환, episode 녹화, env reset 관리 |
+| `action_process.py` | Teleop device의 입력을 env에 맞는 action 형식으로 변환 (단팔 6dim, 양팔 12dim) |
