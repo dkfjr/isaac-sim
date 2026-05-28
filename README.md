@@ -89,7 +89,7 @@ LeIsaac 프로젝트에 추가한 기능들입니다.
 
 | 파일 | 설명 |
 |---|---|
-| `usd/booth.usd` | LeKiwi 작업 부스 (ㄷ자 형태). 바닥 60×55cm, 벽 높이 40cm, 두께 2cm. 정면(+Y) 트임, 천장 없음. Static collider (고정) |
+| `usd/booth.usd` | LeKiwi ㄷ자 부스. 바닥 60×55cm, 벽 높이 40cm, 두께 2cm. 정면(+Y) 트임, 천장 없음. Static collider (고정) |
 | `usd/cube.usd` | 빨간 정육면체 (4×4×4cm, 50g). 파지 대상 오브젝트. Dynamic RigidBody로 중력 적용, 그리퍼로 집을 수 있음 |
 | `usd/blackbox.usd` | 검은 상자 (11×7.5×5cm). 기본 Static (고정 구조물/받침대/장애물). 스크립트에서 Dynamic으로 전환 가능 |
 
