@@ -80,3 +80,34 @@ LeIsaac 프로젝트에 추가한 기능들입니다.
 | `bi_so101_keyboard.py` | 양팔 keyboard controller. Leader arm 없이 키보드로 양팔 12 joints 제어. B키 후 ready pose 자동 전환 |
 | `teleop_se3_agent.py` | Teleop 메인 스크립트. USB↔keyboard 자동 전환, episode 녹화, env reset 관리 |
 | `action_process.py` | Teleop device의 입력을 env에 맞는 action 형식으로 변환 (단팔 6dim, 양팔 12dim) |
+
+## USD 파일
+
+`usd/` 폴더에 Isaac Sim용 USD 씬 파일과 생성 스크립트가 포함되어 있습니다.
+
+### 씬 오브젝트
+
+| 파일 | 설명 |
+|---|---|
+| `usd/booth.usd` | LeKiwi 작업 부스 (ㄷ자 형태). 바닥 60×55cm, 벽 높이 40cm, 두께 2cm. 정면(+Y) 트임, 천장 없음. Static collider (고정) |
+| `usd/cube.usd` | 빨간 정육면체 (4×4×4cm, 50g). 파지 대상 오브젝트. Dynamic RigidBody로 중력 적용, 그리퍼로 집을 수 있음 |
+| `usd/blackbox.usd` | 검은 상자 (11×7.5×5cm). 기본 Static (고정 구조물/받침대/장애물). 스크립트에서 Dynamic으로 전환 가능 |
+
+### LeKiwi 로봇
+
+| 파일 | 설명 |
+|---|---|
+| `usd/lekiwi/lekiwi_fixed.usd` | LeKiwi 로봇 메인 USD. base, physics, robot, sensor 레이어를 참조하는 합성 파일 |
+| `usd/lekiwi/configuration/LeKiwi_base.usd` | 로봇 비주얼 메쉬 (외형 geometry) |
+| `usd/lekiwi/configuration/LeKiwi_physics.usd` | 물리 시뮬레이션 설정 (joints, colliders) |
+| `usd/lekiwi/configuration/LeKiwi_robot.usd` | 로봇 구조 정의 (articulation) |
+| `usd/lekiwi/configuration/LeKiwi_sensor.usd` | 센서 구성 (카메라 등) |
+| `usd/lekiwi/configuration/lekiwi_physics_*.usd` | physics 적용된 버전의 base/robot/sensor/physics 레이어 |
+
+### USD 생성 스크립트
+
+| 파일 | 설명 |
+|---|---|
+| `usd/make_booth_usd.py` | 부스 USD 생성. `python make_booth_usd.py --out ./booth.usd` |
+| `usd/make_cube_usd.py` | 빨간 큐브 USD 생성. `python make_cube_usd.py --out ./cube.usd` |
+| `usd/make_blackbox_usd.py` | 검은 상자 USD 생성. `python make_blackbox_usd.py --out ./blackbox.usd` |
