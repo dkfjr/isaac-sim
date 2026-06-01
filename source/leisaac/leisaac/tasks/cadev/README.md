@@ -12,7 +12,7 @@
 `leisaac.utils` 에 의존하므로, leisaac 체크아웃의
 `source/leisaac/leisaac/tasks/` 안에 이 폴더를 넣어 사용하세요.
 
-씬 USD 는 저장소 최상단 **`usd/`** 폴더에 있습니다(`usd/cadev_env.usd`, `usd/cadev.usd`).
+씬 USD 는 저장소 최상단 **`usd/`** 폴더의 `usd/cadev_env.usd` 입니다.
 태스크는 기본적으로 `<repo_root>/usd/cadev_env.usd` 를 씬 경로로 해석하며,
 파일 위치가 다르면 `CADEV_USD_PATH` 환경변수로 덮어쓸 수 있습니다.
 
@@ -20,12 +20,11 @@
 export CADEV_USD_PATH=/원하는/경로/cadev_env.usd
 ```
 
-## USD 파일 (`cadev.usd` vs `cadev_env.usd`)
+## USD 파일 (`cadev_env.usd`)
 
 | 파일 | 구성 | 용도 |
 |---|---|---|
-| `usd/cadev.usd` | booth + blackbox + cube + **LeKiwi 로봇** + 카메라(Front, Wrist) | **작성용 전체 씬.** GUI 에서 배치를 디자인하고 로봇 초기 pos·카메라 pose 좌표를 추출하는 원본 |
-| `usd/cadev_env.usd` | booth + blackbox + cube + Front 카메라 (**로봇 없음**) | **런타임에 태스크가 로드하는 씬**(`CADEV_USD_PATH`). 로봇은 IsaacLab 이 LeKiwi articulation 으로 따로 스폰하므로 중복 방지를 위해 env USD 에서는 로봇을 제외 |
+| `usd/cadev_env.usd` | booth + blackbox + cube + Front 카메라 (**로봇 없음**) | **런타임에 태스크가 로드하는 씬**(`CADEV_USD_PATH`). 텔레옵 수집·MimicGen 증강에 실제로 쓰이는 유일한 씬 USD. 로봇은 IsaacLab 이 LeKiwi articulation 으로 따로 스폰하므로 env USD 에서는 로봇을 제외 |
 
 ## 태스크 ID
 
