@@ -102,8 +102,8 @@ LeIsaac 프로젝트에 추가한 기능들입니다.
 | `usd/booth.usd` | LeKiwi ㄷ자 부스. 바닥 60×55cm, 벽 높이 40cm, 두께 2cm. 정면(+Y) 트임, 천장 없음. Static collider (고정) |
 | `usd/cube.usd` | 빨간 정육면체 (4×4×4cm, 50g). 파지 대상 오브젝트. Dynamic RigidBody로 중력 적용, 그리퍼로 집을 수 있음 |
 | `usd/blackbox.usd` | 검은 상자 (11×7.5×5cm). 기본 Static (고정 구조물/받침대/장애물). 스크립트에서 Dynamic으로 전환 가능 |
-| `usd/cadev_env.usd` | Cadev 태스크 전체 씬 (부스 + blackbox + cube 배치). `LeIsaac-LeKiwi-Cadev-v0` 가 로드하는 씬. 코드에서 `CADEV_USD_PATH` 로 참조 |
-| `usd/cadev.usd` | Cadev 씬 작성용 원본 USD (LeKiwi 배치 좌표 추출 등에 사용) |
+| `usd/cadev_env.usd` | Cadev **런타임 씬** (booth + blackbox + cube, **로봇 없음**). `LeIsaac-LeKiwi-Cadev-v0` 가 로드하며 코드에서 `CADEV_USD_PATH` 로 참조. 로봇은 IsaacLab 이 따로 스폰하므로 제외 |
+| `usd/cadev.usd` | Cadev **작성용 전체 씬** (booth + blackbox + cube + **LeKiwi 로봇** + 카메라). GUI 에서 배치 디자인 및 로봇 초기 pos·카메라 pose 좌표 추출에 사용 |
 
 ### LeKiwi 로봇
 
