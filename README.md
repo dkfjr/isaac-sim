@@ -18,6 +18,16 @@ LeIsaac 프로젝트에 추가한 기능들입니다.
 - N 선택 시 재감지 안 함 (USB 뽑혔다 꽂히면 다시 감지)
 - 단팔(`so101leader`), 양팔(`bi-so101leader`) 모두 지원
 
+### 4. Cadev — LeKiwi Pick-and-Place + MimicGen 데이터 증강
+- LeKiwi(메카넘 베이스 + SO-ARM100 팔)로 빨간 큐브를 집어 검은 상자에 올리는 태스크
+- 텔레옵 소수 시연 → IK 변환 → annotate → **MimicGen 으로 대량 증강** 파이프라인
+- 추가 코드:
+  - `source/leisaac/leisaac/tasks/cadev/` : 태스크 정의(env/mimic cfg, randomization, mdp)
+  - `scripts/mimic/` : `eef_action_process.py`(IK↔joint 변환), `annotate_demos.py`, `generate_dataset.py`(`--seed` 인자 추가)
+  - `source/leisaac/leisaac/devices/action_process.py` : `mimic_lekiwi-leader` 브랜치(팔 IK + 그리퍼, 휠 제외), wrist_roll 0점 보정
+- 전체 워크플로/명령어/좌표·설정은 **[`tasks/cadev/README.md`](source/leisaac/leisaac/tasks/cadev/README.md)** 참고
+- 씬 USD 는 `usd/cadev_env.usd`(전체 씬), `usd/cadev.usd` 사용. 코드는 `<repo_root>/usd/cadev_env.usd` 로 기본 해석하며 `CADEV_USD_PATH` 환경변수로 override 가능
+
 ## 키보드 조작법
 
 ### 단팔 (SO101JointKeyboard)
@@ -92,6 +102,8 @@ LeIsaac 프로젝트에 추가한 기능들입니다.
 | `usd/booth.usd` | LeKiwi ㄷ자 부스. 바닥 60×55cm, 벽 높이 40cm, 두께 2cm. 정면(+Y) 트임, 천장 없음. Static collider (고정) |
 | `usd/cube.usd` | 빨간 정육면체 (4×4×4cm, 50g). 파지 대상 오브젝트. Dynamic RigidBody로 중력 적용, 그리퍼로 집을 수 있음 |
 | `usd/blackbox.usd` | 검은 상자 (11×7.5×5cm). 기본 Static (고정 구조물/받침대/장애물). 스크립트에서 Dynamic으로 전환 가능 |
+| `usd/cadev_env.usd` | Cadev 태스크 전체 씬 (부스 + blackbox + cube 배치). `LeIsaac-LeKiwi-Cadev-v0` 가 로드하는 씬. 코드에서 `CADEV_USD_PATH` 로 참조 |
+| `usd/cadev.usd` | Cadev 씬 작성용 원본 USD (LeKiwi 배치 좌표 추출 등에 사용) |
 
 ### LeKiwi 로봇
 

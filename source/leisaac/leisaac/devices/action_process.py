@@ -97,6 +97,20 @@ def init_action_cfg(action_cfg, device):
             joint_names=["gripper"],
             scale=1.0,
         )
+    elif device in ["mimic_lekiwi-leader"]:
+        # MimicGen for LeKiwi: arm via DifferentialIK (pose), gripper via JointPosition.
+        # The mecanum base is held fixed by joint stiffness, so it is excluded from the action below.
+        action_cfg.arm_action = mdp.DifferentialInverseKinematicsActionCfg(
+            asset_name="robot",
+            joint_names=["shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_roll"],
+            body_name="gripper",
+            controller=mdp.DifferentialIKControllerCfg(command_type="pose", ik_method="dls", use_relative_mode=False),
+        )
+        action_cfg.gripper_action = mdp.JointPositionActionCfg(
+            asset_name="robot",
+            joint_names=["gripper"],
+            scale=1.0,
+        )
 
     """LeKiwi action configuration"""
     if device in ["lekiwi-leader", "lekiwi-keyboard", "lekiwi-gamepad"]:
@@ -106,10 +120,18 @@ def init_action_cfg(action_cfg, device):
             scale=1.0,
         )
 
+    # MimicGen(LeKiwi) uses only arm IK (7) + gripper (1) = 8D. The wheels are held by
+    # stiffness, so drop the wheel action entirely for this device.
+    if device in ["mimic_lekiwi-leader"]:
+        if hasattr(action_cfg, "wheel_action"):
+            action_cfg.wheel_action = None
+
     """Check if all the action configurations are set"""
     for field in fields(action_cfg):
         value = getattr(action_cfg, field.name, None)
-        if value is None or value is MISSING:
+        # Allow an explicit None (e.g. wheel_action disabled for mimic_lekiwi-leader);
+        # only an unset MISSING field is an error.
+        if value is MISSING:
             raise ValueError(f"Action configuration '{field.name}' for {device} is not set")
 
     return action_cfg
@@ -138,6 +160,9 @@ def convert_action_from_so101_leader(
         motor_degree = joint_state[joint_name] - motor_limit_range[0]
         processed_degree = motor_degree / motor_range * joint_range + joint_limit_range[0]
         processed_radius = processed_degree / 180.0 * torch.pi  # convert degree to radius
+        if joint_name == "wrist_roll":
+            # Correct the 90-degree zero-point offset between the leader and follower wrist_roll.
+            processed_radius = processed_radius + torch.pi / 2
         processed_action[:, motor_id] = processed_radius
     return processed_action
 
