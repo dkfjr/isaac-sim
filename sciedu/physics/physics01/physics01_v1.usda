@@ -1,0 +1,32 @@
+#usda 1.0
+(
+    doc = "physics01 with the embedded OpenArm v2.0 replaced by the official OpenArm v1.0 bimanual asset (Isaac Sim 5.1). Background, props, lighting and physics scene are inherited unchanged from physics01.usd."
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "World" (
+    prepend references = @./physics01.usd@</World>
+)
+{
+    # 씬에 내장된 OpenArm v2.0 articulation 을 비활성화한다.
+    # 원본 physics01.usd 는 건드리지 않으므로 v2.0 씬은 그대로 남는다.
+    over "openarm_v20" (
+        active = false
+    )
+    {
+    }
+
+    # 공식 OpenArm v1.0 bimanual 을 v2.0 이 있던 자리에 그대로 놓는다.
+    # v2.0 base(openarm_body_link0) world 위치 = (-0.0072, 0, 0.3448)
+    # v1.0 base(openarm_body_link) 는 에셋 원점이고, 두 모델 모두 어깨가
+    # base 기준 (0, ±0.0935, 0.698) 이라 같은 transform 이면 어깨가 정확히 겹친다.
+    def Xform "openarm_v1" (
+        prepend references = @../openarm_v1.0/openarm_bimanual.usd@</openarm>
+    )
+    {
+        double3 xformOp:translate = (-0.0072, 0, 0.3448)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+}
